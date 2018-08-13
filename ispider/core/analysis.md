@@ -63,6 +63,4 @@ Query String Parameters
 
 orderby = week 就是周排行
 
-
-
 ![Image text](https://github.com/KaiLuZheng/ikongtou/blob/master/ispider/img_folder/json_daylist.png)
