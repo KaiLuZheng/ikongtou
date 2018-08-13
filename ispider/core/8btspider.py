@@ -22,9 +22,10 @@ class _8btSpider(iSpider):
     host_url = 'https://www.8btc.com'
     day_orderby_api = 'https://app.blockmeta.com/w1/news/list?'
     param = {   'post_type':'post',
-                'num':5,
+                'num':10,
                 'orderby':'day'
     }
+    
 
     def __init__(self):
         super().__init__()
@@ -35,11 +36,18 @@ class _8btSpider(iSpider):
 
     def run(self):
         resjson = self.reqdayorder()
-        logging.debug(resjson)
+
+        for num, i in enumerate(resjson['list']):
+            #logging.debug('{}:{}'.format(num,i))
+            url = '%s/article/%d'%(self.host_url,i['id'])
+            logging.debug(i['title']) 
+            logging.debug(url) 
+
 
     def reqdayorder(self):
         res = urllib.request.urlopen(self.day_order_url) 
         jsonlist = res.read().decode('utf8')
+
         return json.loads(jsonlist)
         
 
