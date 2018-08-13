@@ -1,1 +1,1 @@
-![Image text](https://raw.github.com/KaiLuZheng/ikongtou/ispider/img_folder/json_daylist.png)
+![Image text](https://github.com/KaiLuZheng/ikongtou/blob/master/ispider/img_folder/json_daylist.png)
