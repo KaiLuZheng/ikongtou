@@ -64,11 +64,12 @@ if __name__ == '__main__':
 
     while True:
         req = urllib.request.urlopen('https://api.schail.com/v3/ticker/summary?type=0&sort=1&offset=0&limit=100&top=0')
-        coins = req.read().decode('utf8')    
+        coins = req.read().decode('utf8')
 
         BTC = json.loads(coins)['data']['summaryList'][0]['price']
 
         req = urllib.request.urlopen('http://m.cmbchina.com/Rate/FxRealrateDetail.aspx?name=%u7F8E%u5143')
+        # %u7F8E%u5143 = 美元
         html = req.read().decode('utf8') 
         logging.debug(re.findall(r'<div class="box-flex-1 text-right">(.*?)</div>', html)[4])
 
