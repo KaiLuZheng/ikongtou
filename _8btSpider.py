@@ -21,7 +21,6 @@ dayorderLabels = [  'title',
                     'post_date_format',
                     'desc',
                     'images',
-                    
 ]
 
 class _8btSpider(iSpider):
@@ -52,7 +51,7 @@ class _8btSpider(iSpider):
         res = urllib.request.urlopen(self.day_order_url) 
         jsonlist = res.read().decode('utf8')
         sjson = json.loads(jsonlist)
-        logging.debug(sjson['list'][0]) # 查看格式
+#        logging.debug(sjson['list'][0]) # 查看格式
         return sjson
 
     def parse_xdayorder(self, sjson):
@@ -63,8 +62,9 @@ class _8btSpider(iSpider):
         for i in dayorderLabels:
             infos[i] = sjson[i].replace('\r','').replace('\n', '') if type(sjson[i]) == str else sjson[i]
        
-        #for i in infos:
-        #    print(infos[i])
+        # update on mysql
+        for i in infos:
+            print(type(infos[i]) == list)
 
 
 

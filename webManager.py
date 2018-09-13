@@ -3,18 +3,21 @@
 
 
 
-_dir = (os.path.dirname(os.path.realpath(__file__)))
-core_dir = main_dir + '/ispider/core'
-
-
 import web
 
 urls = ( '/', 'index'
 )
 
+
+
 class index:
     def GET(self):
-        return 'hello world!'
+
+
+        return open('index_test.html', 'r').read()
+
+
+
 
 #app = web.application(urls, globals())
 app = web.application(urls, locals())

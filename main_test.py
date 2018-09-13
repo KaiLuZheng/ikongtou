@@ -4,14 +4,14 @@
 import os
 import sys
 
-
-main_dir = (os.path.dirname(os.path.realpath(__file__)))
-ispider_dir = main_dir + '/ispider'
-sys.path.append(ispider_dir)
-
-
+from _8btSpider import _8btSpider
 from webManager import app
 
 
+
 if __name__ == '__main__':
+
+    # may run in a thread by a day
+    _8btpage = _8btSpider.start()
+
     app.run()

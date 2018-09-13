@@ -29,6 +29,11 @@ class iSpider(threading.Thread):
 
 
 
+
+
+
+
+
 # test class 
 
 import urllib
