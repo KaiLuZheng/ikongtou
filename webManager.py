@@ -5,22 +5,22 @@
 
 import web
 
-urls = ( '/', 'index'
+
+urls = ( 
+    '/', 'index'
 )
 
 
+render = web.template.render('templates/')
 
 class index:
     def GET(self):
+        return render.index_test()
 
 
-        return open('index_test.html', 'r').read()
-
-
-
-
-#app = web.application(urls, globals())
 app = web.application(urls, locals())
+#app = web.application(urls, globals())
+
 
 if __name__ == '__main__':
     app.run()
