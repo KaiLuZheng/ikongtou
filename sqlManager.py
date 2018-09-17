@@ -21,6 +21,8 @@ else:
     logging.basicConfig(level = logging.ERROR)
 
 
+configfile_defult = 'conf.ini'
+
 CHOSSE_DB = 'use %s;'
 SELECT_TABLE = 'select %s from %s' 
 
@@ -28,7 +30,7 @@ INSERT_TABLE = 'insert into %s(%s) values(%s)' # tablename feilds values
 DELETE_DATA = 'delete from %s %s' # tablename condition
 
 class sqlOprateCore:
-    def __init__(self, configfile = 'conf.ini'):
+    def __init__(self, configfile = configfile_defult):
         # configfile should not be ''
 
         conf = configparser.ConfigParser()
@@ -148,8 +150,8 @@ if __name__ == '__main__':
 
     a.initorderline()
     print("choose db: ", a.choosedb('ikongtoudb'))
-    print('check table: ', a.check_dayorderinfo())
-    print(a.insert_dayorderinfo(values = a.test_values))
+#    print('check table: ', a.check_dayorderinfo())
+#    print(a.insert_dayorderinfo(values = a.test_values))
 #    print(a.deleteDate(tablename = 'dayorderinfos', orderline = a.delete_id%5))
     print('check table: ', a.check_dayorderinfo())
     #print(a.readnew_dayorderinfo(1))

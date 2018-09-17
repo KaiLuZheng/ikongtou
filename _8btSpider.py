@@ -105,7 +105,7 @@ class _8btSpider(iSpider):
         parse = ''
         for i in values:
             parse = parse + '"%s",'%i
-        print(parse)
+        #print(parse)
        
         # update on mysql
         dbManager = iktSqlManager()
