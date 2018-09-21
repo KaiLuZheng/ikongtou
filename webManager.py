@@ -5,18 +5,39 @@
 
 import web
 from sqlManager import iktSqlManager, configfile_defult
+from translate import baiduTranslator as bdt
 
 import configparser
 import json
 
 
+
 urls = ( 
     '/', 'index',
-    '/api/dayorder', 'dayorder'
+    '/api/dayorder', 'dayorder',
+    '/api/translate','translate',
 )
 
 
 render = web.template.render('templates/')
+
+class translate:
+    def GET(self):
+        word = web.input().word
+        try:
+            data = bdt().translateWord(word)
+            data['code']  = 0
+        except:
+            data = {'error':'input error', 'code': -1}
+        return json.dumps(data)
+
+
+    def POST(self):
+        param = json.loads(web.data().decode('utf8'))
+        word = param['word']
+        data = bdt().translateWord(word)
+        return json.dumps(data)
+
 
 class index:
     def GET(self):

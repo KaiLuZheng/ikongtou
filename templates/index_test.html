@@ -8,10 +8,20 @@ $def with (info)
 
 <style>
 
+#infos {
+    width: 380;
+    display: inline;
+}
+
 #background {
     width: 380px;
     height: 228px;
     position: relative;
+    float: left;
+}
+
+#translation {
+    float: none;
 }
 
 #bottombox {
@@ -57,15 +67,79 @@ a{text-decoration:none}
 <body>
 
 
+<div id = 'title'>
+    <h1><strong>LUMENO READING</strong></h1>
+</div>
+
+<div>
+
+<h6> API:  http://www.lumeno.club/api/translate </h6>
+<input id = 'trans' type = 'text' value = 'translation'> </input>
+<button type = 'button' onclick = btnAction()>Translate!</button>
+
+<p>
+<h3 id = 'transword'></h3>
+<h3 id = 'transspell'></h3>
+<h3 id = 'transmeans'></h3>
+</p>
+
+</div>
+
+
+
+
+<div id = 'content'>
     <div id = 'infos'>
     </div>
+</div>
 
+
+
+
+<script>
+
+
+
+function btnAction() {
+    var oAjax = new XMLHttpRequest();
+    var api_host = 'http://localhost:8080/api/translate?word='
+    var word = document.getElementById('trans').value
+    var url = api_host + word
+
+    oAjax.open('GET', url, true); 
+    oAjax.send()
+
+    oAjax.onreadystatechange=function(){
+        if(oAjax.readyState==4){
+            if(oAjax.status==200){
+                if(JSON.parse(oAjax.responseText)['code'] == 0) {
+
+                document.getElementById('transword').innerHTML = JSON.parse(oAjax.responseText)['word'];
+                document.getElementById('transspell').innerHTML = JSON.parse(oAjax.responseText)['spell'];
+
+                var means = new String('');
+                for (var i = 0;i < JSON.parse(oAjax.responseText)['means'].length; i++) {
+                    means = means + JSON.parse(oAjax.responseText)['means'][i] + '<br>';
+                }
+                document.getElementById('transmeans').innerHTML = means;
+                }
+                else {
+                
+                document.getElementById('transword').innerHTML = JSON.parse(oAjax.responseText)['error'];
+                document.getElementById('transspell').innerHTML = JSON.parse(oAjax.responseText)['error'];
+                document.getElementById('transmeans').innerHTML = JSON.parse(oAjax.responseText)['error'];
+                    
+                }
+
+            }
+        }
     
+    }
 
-    <script>
+}
 
     function insertInfos(){
-        var infoline = new String('')
+        var infoline = new String('');
 
         $for i in info:
             infoline = infoline + "<div id = 'background' class = 'background'>" +
@@ -78,8 +152,7 @@ a{text-decoration:none}
                     "        </a> " +
                     "    </div> " +
                     "</div>" +
-                    "</div>" + 
-                    "<br/><br/>";
+                    "</div>";
 
         return infoline;
     }
