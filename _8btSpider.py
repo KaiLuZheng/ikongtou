@@ -5,9 +5,6 @@ from ispider import iSpider
 import logging
 import time
 
-logging.basicConfig(level = logging.DEBUG,
-
-)
 import configparser
 
 import urllib
@@ -19,6 +16,8 @@ import re
 import sys
 
 from sqlManager import iktSqlManager
+
+
 
 '''
 dayorderLabels = [  'title',
@@ -69,6 +68,8 @@ class _8btSpider(iSpider):
         '''
         截取需要的内容，并上传
         '''
+        logging.info(sjson)
+
         conf = configparser.ConfigParser()
         conf.read('conf.ini')
 
@@ -122,11 +123,24 @@ class _8btSpider(iSpider):
 
 
 if __name__ == '__main__':
-    a = _8btSpider()
 
-    a.start()
+    logging.basicConfig( level = logging.INFO, 
+                        filename = time.strftime('%Y%m',time.localtime()) + '.log',
+                        filemode = 'a',
+                        format = '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s',
+    )
+#    logger.info(time.strftime('%Y%m',time.localtime()) + '.txt')
 
-    a.join()
+    while True:
+        logging.info('crap 8btc.')
+
+        a = _8btSpider()
+        a.start()
+        a.join()
+
+        logging.info('ok.')
+
+        time.sleep(86400)
 
 
 

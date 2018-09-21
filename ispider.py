@@ -8,11 +8,6 @@ import logging
 import threading
 
 
-# can be controled by a file
-logging.basicConfig(level = logging.DEBUG,
-                    #format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-
 class iSpider(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
@@ -70,7 +65,12 @@ import re
 
 if __name__ == '__main__':
     #manager = spidermanager() 
-    #logging.debug(6438.673542714115 * 6.8726)
+ # can be controled by a file
+    logging.basicConfig(level = logging.DEBUG,
+                    #format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+
+   #logging.debug(6438.673542714115 * 6.8726)
 
     while True:
         req = urllib.request.urlopen('https://api.schail.com/v3/ticker/summary?type=0&sort=1&offset=0&limit=100&top=0')

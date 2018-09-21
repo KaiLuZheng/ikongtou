@@ -1,1 +1,96 @@
-hello ikongtou
+$def with (info)
+<html>
+
+<head>
+<meta charset="utf-8"> 
+<title>ikongtou</title>
+</head>
+
+<style>
+
+#background {
+    width: 380px;
+    height: 228px;
+    position: relative;
+}
+
+#bottombox {
+    position: absolute; 
+    margin-bottom: 8px;
+    bottom: 0;
+}
+
+#textline {
+    position: absolute; 
+    bottom: 0;
+    width : 330px;
+    padding-top: 8px;
+    padding-right: 16px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+
+    margin-top: 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    margin-left: 8px;
+
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 700;
+        
+    border-radius: 4px;
+
+    background-color: rgba(10,10,10,0.5);
+}
+
+#myfont {
+    font-size : 1em;
+    color : #fff;
+}
+
+a{text-decoration:none}
+
+</style>
+
+
+
+<body>
+
+
+    <div id = 'infos'>
+    </div>
+
+    
+
+    <script>
+
+    function insertInfos(){
+        var infoline = new String('')
+
+        $for i in info:
+            infoline = infoline + "<div id = 'background' class = 'background'>" +
+                    '<img src = $i["image_little"]>' + 
+                    '</img>' + 
+                    "<div id = 'bottombox' class = 'bottombox'>" + 
+                    "   <div id='textline' class = 'textline'>" +
+                    "        <a href = 'https://www.8btc.com/article/" + '$i["page_code"]'  + "'>" +
+                    "            <p id = 'myfont' class = 'myfont'>" + "$i['title']</p>" +
+                    "        </a> " +
+                    "    </div> " +
+                    "</div>" +
+                    "</div>" + 
+                    "<br/><br/>";
+
+        return infoline;
+    }
+
+    document.getElementById('infos').innerHTML = insertInfos();
+
+    </script>
+
+
+
+
+</body>
+
+</html>

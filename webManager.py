@@ -20,11 +20,36 @@ render = web.template.render('templates/')
 
 class index:
     def GET(self):
-        return render.index_test()
+        dbManager = iktSqlManager()
+        dbManager.connectSQL()
+        dbManager.initorderline()
+        dbManager.choosedb('ikongtoudb')
+        data = dbManager.readnew_dayorderinfo()
+        dbManager.closeSQL()
+
+        conf = configparser.ConfigParser()
+        conf.read(configfile_defult)
+        infolabels = []
+        for i in conf.items('dayorderfield'):
+            infolabels.append(i[1])
+
+        #print(infolabels)
+
+        infos = []
+        for j in data: 
+            tmpdata = {}
+            for num, i in enumerate(j[1:]):
+                tmpdata[infolabels[num]] = j[1+num]
+            tmpdata['dayformat'] = tmpdata['dayformat'].strftime('%Y-%m-%d %H:%M:%S')
+            infos.append(tmpdata)
+
+        return render.index_test(infos)
 
 class dayorder:
     def GET(self):
         # check 
+        web.header('content-type','text/json')
+
         number = int(web.input().query)
 
         dbManager = iktSqlManager()

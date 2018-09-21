@@ -10,15 +10,6 @@ import sys
 
 import time
 
-try:
-    debugflag = sys.argv[1] == 'debug'
-except:
-    debugflag = False
-
-if debugflag:
-    logging.basicConfig(level = logging.DEBUG)
-else:
-    logging.basicConfig(level = logging.ERROR)
 
 
 configfile_defult = 'conf.ini'
@@ -144,8 +135,17 @@ class iktSqlManager(sqlOprateCore):
 
 
 if __name__ == '__main__':
-    a = iktSqlManager()
-    a.connectSQL()
+    try:
+        debugflag = sys.argv[1] == 'debug'
+    except:
+        debugflag = False
+
+    if debugflag:
+        logging.basicConfig(level = logging.DEBUG)
+    else:
+        logging.basicConfig(level = logging.ERROR)
+        a = iktSqlManager()
+        a.connectSQL()
 
 
     a.initorderline()
