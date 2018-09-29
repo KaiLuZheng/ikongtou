@@ -58,6 +58,14 @@ $def with (info)
     color : #fff;
 }
 
+.tvblock {
+
+}
+
+.vb {
+    float : left
+}
+
 a{text-decoration:none}
 
 </style>
@@ -85,9 +93,41 @@ a{text-decoration:none}
 
 </div>
 
+<HR>
+
+<div class = 'tvblock'>
+
+<h2><strong>在线直播</strong></h2>
+<ul>
+<a href='/tv/009'><h3>湖南卫视</h3></a>
+<a href='/tv/001'><h3>中央1套</h3></a>
+<a href='/tv/055'><h3>中央2套</h3></a>
+<a href='/tv/056'><h3>中央3套</h3></a>
+<a href='/tv/085'><h3>中央4套</h3></a>
+<a href='/tv/057'><h3>中央6套</h3></a>
+<a href='/tv/086'><h3>中央7套</h3></a>
+<a href='/tv/061'><h3>中央10套</h3></a>
+<a href='/tv/1588'><h3>四海钓鱼</h3></a>
+<a href='/tv/065'><h3>江苏影视</h3></a>
+<a href='/tv/053'><h3>江苏体育休闲</h3></a>
+<a href='/tv/013'><h3>广东体育GDTY</h3></a>
+<a href='/tv/036'><h3>山东教育TV</h3></a>
+<a href='/tv/477'><h3>炫动卡通</h3></a>
+<a href='/tv/1562'><h3>上海外语频道</h3></a>
+<a href='/tv/110'><h3>上海新闻综合</h3></a>
+<a href='/tv/101'><h3>上海电视剧</h3></a>
+<a href='/tv/024'><h3>上海纪实</h3></a>
+<a href='/tv/019'><h3>上海艺术人文</h3></a>
+<a href='/tv/063'><h3>东方电影频道</h3></a>
+</ul>
 
 
 
+
+</div>
+
+
+<HR>
 <div id = 'content'>
     <div id = 'infos'>
     </div>
@@ -97,8 +137,6 @@ a{text-decoration:none}
 
 
 <script>
-
-
 
 function btnAction() {
     var oAjax = new XMLHttpRequest();
@@ -161,8 +199,6 @@ function btnAction() {
     document.getElementById('infos').innerHTML = insertInfos();
 
     </script>
-
-
 
 
 </body>

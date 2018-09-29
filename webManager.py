@@ -9,17 +9,79 @@ from translate import baiduTranslator as bdt
 
 import configparser
 import json
+from urls import urls
 
-
-
-urls = ( 
-    '/', 'index',
-    '/api/dayorder', 'dayorder',
-    '/api/translate','translate',
-)
-
+from xtvrouteclass import xroute1
 
 render = web.template.render('templates/')
+
+
+tvmap = 'tvmap.js'
+
+
+cctvid = ['055', '061', '056', '085', '003', '057', '086', '058']
+cctvmap = {'055':'cctv2', 
+    '056':'cctv3', 
+    '085':'cctv4', 
+    '003':'cctv5', 
+    '057':'cctv6', 
+    '086':'cctv7', 
+    '058':'cctv8', 
+    '061':'cctv10',
+ }
+
+class tvindex:
+    def GET(self):
+        pass
+
+
+class tvshow:
+    def GET(self, tvid):
+
+        print(tvid)
+        data = {}
+
+        if tvid == 'test' :
+            data['id'] = 0
+            data['route'] = 'test'
+            return render.tvshow(data)
+        elif tvid in cctvid: 
+            data['id'] = 1
+            data['route'] = cctvmap[tvid]
+            return render.tvshow(data)
+        
+
+        with open(tvmap, 'r') as f:
+            sjson = json.loads(f.read())
+
+        tv_url = sjson[tvid]['href']
+
+        print(tv_url)
+
+        a = xroute1(url = tv_url) 
+        realroute = json.loads(a.routeurl())['realroute']
+
+        data['id'] = 2
+        data['route'] = realroute
+        return render.tvshow(data)
+
+
+
+class image:
+    def GET(self, img):
+        with open('templates/img/'+img, 'rb') as f:
+            return f.read()
+
+class _videos:
+    def GET(self, videos):
+        with open('templates/videos/' + videos, 'rb') as f:
+            return f.read()
+
+class _jsons:
+    def GET(self, jsons):
+        with open('templates/js/' + jsons, 'rb') as f:
+            return f.read()
+
 
 class translate:
     def GET(self):
@@ -97,6 +159,7 @@ class dayorder:
             infos.append(tmpdata)
 
         return json.dumps(infos)
+
 
 
 app = web.application(urls, locals())
