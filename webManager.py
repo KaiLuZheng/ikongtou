@@ -58,18 +58,21 @@ class tvshow:
 
         print(tv_url)
 
-        a = xroute1(url = tv_url) 
-        realroute = json.loads(a.routeurl())['realroute']
+        try:
+            a = xroute1(url = tv_url) 
+            realroute = json.loads(a.routeurl())['realroute']
 
-        data['id'] = 2
-        data['route'] = realroute
-        return render.tvshow(data)
+            data['id'] = 2
+            data['route'] = realroute
+            return render.tvshow(data)
+        except Exception as e:
+            return e
 
 
 
 class image:
     def GET(self, img):
-        with open('templates/img/'+img, 'rb') as f:
+       with open('templates/img/'+img, 'rb') as f:
             return f.read()
 
 class _videos:

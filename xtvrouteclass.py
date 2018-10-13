@@ -45,10 +45,12 @@ class reqCore():
 
     def sourceInit(self):
         req = urllib.request.Request(self.url, headers = headers)
+#       print('source Init:', self.url)
 
         try:
-            res = urllib.request.urlopen(req, timeout = 5.0)
+            res = urllib.request.urlopen(req)
         except Exception as e:
+            print(e)
             raise Exception('init.error: %s'%e)
 
         self.res = res
@@ -144,29 +146,21 @@ class xroute1(reqCore):
         self.infos['playName'] = sjson['playBill']['playName']
         self.infos['realroute'] = sjson['urlInfo']['url']
 
+        print(self.infos['realroute'])
         return json.dumps(self.infos)
 
 
 
 if __name__ == '__main__':
-    idnum = '5484'
+    idnum = '009'
     with open('tvmap.js', 'r') as f:
         sjson = json.loads(f.read())
 
     tv_url = sjson[idnum]['href']
+    print(tv_url)
 
     a = xroute1(url = tv_url)
     print(a.routeurl())
-
-
-
-
-
-
-
-
-
-
 
 
 
