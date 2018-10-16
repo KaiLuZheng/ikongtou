@@ -1,0 +1,145 @@
+$def with (realroute)
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<meta name=”viewport” content=”width=device-width, initial-scale=1″ />
+
+<style>
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<script type="text/javascript" src="/ckplayer/ckplayer.js"></script>
+<div id="video" style="width:100%;height:600px;"></div>
+<script type="text/javascript">
+function escape2Html(str) {
+    var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"', '#39':"'"};
+    return str.replace(/&(lt|gt|nbsp|amp|quot|#39);/ig, function(all,t) { return arrEntities[t]; });
+}
+
+
+function mgVideo(p,a,c,k,e,d) {
+    e = function(c) {
+        return ( c < a ?'' : e(parseInt(c / a))) + 
+            (( c = c % a ) > 35 ? String.fromCharCode(c+29) : c.toString(36))
+    };
+
+    if ( !''.replace(/^/, String)) {
+        while(c--) {
+         d[e(c)] = k[c] || e(c) 
+        }
+        k = [ function(e) {
+            return d[e]
+        }];
+
+        e = function() {
+            return '\\w+'
+        };
+
+        c=1
+    };
+
+    while (c--) {
+        if ( k[c] ) {
+        p = p.replace(new RegExp('\\b' + e(c) + '\\b','g') , k[c] ) }
+    } 
+
+    return p
+}
+
+
+var num = $len(realroute['sourdid'])
+
+var tvlist = String('')
+var jiaoyu = String('')
+var jiaoyuhd = String('')
+$for i in range(0, len(realroute['sourdid'])):
+    $if realroute['sourdid'][i][0] == '':
+        $continue
+    console.log("$realroute['sourdid'][i][0][0:2]")
+    $if realroute['sourdid'][i][0][0:2] == 'MG' and realroute['sourdid'][i][2] == 'iframe':
+        tvlist = escape2Html("$realroute['sourdid'][i][1]")
+    $if realroute['sourdid'][i][0][0:2] == '北邮' and realroute['sourdid'][i][2] == 'm3u8':
+        jiaoyu = escape2Html("$realroute['sourdid'][i][1]")
+    $if realroute['sourdid'][i][0][0:2] == '教育' and realroute['sourdid'][i][2] == 'flv':
+        jiaoyuhd = escape2Html("$realroute['sourdid'][i][1]")
+
+
+
+
+var strings = String('')
+var route = String('')
+console.log(tvlist)
+
+if (tvlist == '') {
+
+    if((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+	    console.log("你的手机版地址");
+        route = jiaoyu 
+    } else {
+	    console.log("你的电脑版地址");
+        route = jiaoyuhd
+    }
+
+} else {
+    var source = (escape2Html(tvlist))
+
+    p = source.split("',")[0]
+    p = p.substring(2, p.length)
+    a = 62
+    c = 92
+    k = source.match(/,'.*?'/)[0]
+    k = k.substring(2, k.length - 1).split('|'+String.fromCharCode(84)+'|')
+    e = 0
+    d = {}
+
+    /*
+    console.log(p)
+    console.log(a)
+    console.log(c)
+    console.log(k)
+    */
+
+
+    strings = mgVideo(p, a, c, k, e, d)
+    var x1 = (strings.match(/"pc".*?}/)[0])
+    x1 = x1.match(/http:.*?"/)[0]
+    x1 = x1.substring(0, x1.length-1)
+    console.log(x1)
+    route = x1.replace(/\\/ig, '')
+}
+
+console.log(route)
+
+
+var videoObject = {
+        container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
+        variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+        flashplayer: true,//如果强制使用flashplayer则设置成true
+        autoplay: 'auto',
+        live: true,
+        video: route, //视频地址
+};
+
+var player=new ckplayer(videoObject);
+
+</script>
+</body>
+
+
+
+</html>
+
+
+
+

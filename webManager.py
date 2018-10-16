@@ -11,12 +11,18 @@ import configparser
 import json
 from urls import urls
 
-from xtvrouteclass import xroute1
+### 
+
+import sys, os
+maindir = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(maindir + '/picktvshow')
+from zhibooStream_api import xroute_tvmap as zhiboo_xroute
+from haoquStream_api import xroute_tvmap as haoqu_xroute
+
+###
+
 
 render = web.template.render('templates/')
-
-
-tvmap = 'tvmap.js'
 
 
 cctvid = ['055', '061', '056', '085', '003', '057', '086', '058']
@@ -34,39 +40,48 @@ class tvindex:
     def GET(self):
         pass
 
+class xhaoquIframe:
+    def GET(self):
+        pass
 
-class tvshow:
+    def POST(self, data):
+
+        return 'hello'
+        
+
+class jump_haoqu:
+    def GET(self):
+        data = web.input().id
+        print(data)
+
+        return render.jumphaoqu('http://localhost:8080/haoqutv/' + data)
+        #return render.jumphaoqu('http://www.lumeno.club/haoqutv/' + data)
+
+
+class haoqu_tvshow:
+    def GET(self, tvid):
+        print(tvid)
+        try:
+            data = haoqu_xroute(tvid)
+        except Exception as e:
+            return ('%s: no signal'%e)
+
+        print(data['sourdid'])
+
+        return render.tvshow_haoqu(data)
+
+
+class zhiboo_tvshow:
     def GET(self, tvid):
 
         print(tvid)
-        data = {}
+        data = zhiboo_xroute(tvid)
+        print(data)
+       
+        if data['sourid'][1] == '':
+            return data['tvname'] + ':no signal'
 
-        if tvid == 'test' :
-            data['id'] = 0
-            data['route'] = 'test'
-            return render.tvshow(data)
-        elif tvid in cctvid: 
-            data['id'] = 1
-            data['route'] = cctvmap[tvid]
-            return render.tvshow(data)
-        
-
-        with open(tvmap, 'r') as f:
-            sjson = json.loads(f.read())
-
-        tv_url = sjson[tvid]['href']
-
-        print(tv_url)
-
-        try:
-            a = xroute1(url = tv_url) 
-            realroute = json.loads(a.routeurl())['realroute']
-
-            data['id'] = 2
-            data['route'] = realroute
-            return render.tvshow(data)
-        except Exception as e:
-            return e
+        return render.tvshow(data)
 
 
 
@@ -80,9 +95,9 @@ class _videos:
         with open('templates/videos/' + videos, 'rb') as f:
             return f.read()
 
-class _jsons:
+class cks:
     def GET(self, jsons):
-        with open('templates/js/' + jsons, 'rb') as f:
+        with open('templates/ckplayer/' + jsons, 'rb') as f:
             return f.read()
 
 
@@ -131,6 +146,7 @@ class index:
 
         return render.index_test(infos)
 
+
 class dayorder:
     def GET(self):
         # check 
@@ -171,7 +187,6 @@ app = web.application(urls, locals())
 
 if __name__ == '__main__':
     app.run()
-
 
 
 

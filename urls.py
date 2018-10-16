@@ -5,10 +5,13 @@ urls = (
     '/', 'index',
     '/api/dayorder', 'dayorder',
     '/api/translate', 'translate',
+    '/api/xhaoquIframe', 'xhaoquIframe',
     '/tvindex/', 'tvindex',
-    '/tv/(.*)', 'tvshow',
+    '/zhibootv/(.*)', 'zhiboo_tvshow',
+    '/haoqutv/(.*)', 'haoqu_tvshow',
+    '/jump/haoqu', 'jump_haoqu',
     '/img/(.*)', 'image',
-    '/js/(.*)', '_jsons',
+    '/ckplayer/(.*)', 'cks',
     '/videos/(.*)', '_videos',
 )
 

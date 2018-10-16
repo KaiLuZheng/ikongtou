@@ -8,6 +8,7 @@ $def with (info)
 
 <style>
 
+
 #infos {
     width: 380;
     display: inline;
@@ -68,6 +69,16 @@ $def with (info)
 
 a{text-decoration:none}
 
+.oneline {
+    display: inline; 
+    float: left;
+    border: #c3cecd 0px solid; 
+    width: 90px;
+    text-align: center;
+    
+}
+
+
 </style>
 
 
@@ -76,12 +87,12 @@ a{text-decoration:none}
 
 
 <div id = 'title'>
-    <center><h1><strong>LUMENO READING</strong></h1></center>
+    <h1><strong>LUMENO READING</strong></h1>
 </div>
 
-<div>
 
-<span style = "float: left"> API:  http://www.lumeno.club/api/translate </span>
+<div>
+<span> API:  http://www.lumeno.club/api/translate </span>
 <input id = 'trans' type = 'text' value = 'translation'> </input>
 <button type = 'button' onclick = btnAction()>Translate!</button>
 
@@ -93,41 +104,26 @@ a{text-decoration:none}
 
 </div>
 
+
 <HR>
 
-<div class = 'tvblock' style = "border: 1px solid; width: 700px; float: left;">
 
+
+<div class = 'tvblock' style = "border:#c3cecd 1px solid; width: 100%; float: left;" >
 <h2><strong>在线直播</strong></h2>
-<ul>
-<a href='/tv/009'><h3>湖南卫视</h3></a>
-<a href='/tv/001'><h3>中央1套</h3></a>
-<a href='/tv/055'><h3>中央2套</h3></a>
-<a href='/tv/056'><h3>中央3套</h3></a>
-<a href='/tv/085'><h3>中央4套</h3></a>
-<a href='/tv/057'><h3>中央6套</h3></a>
-<a href='/tv/086'><h3>中央7套</h3></a>
-<a href='/tv/061'><h3>中央10套</h3></a>
-<a href='/tv/1588'><h3>四海钓鱼</h3></a>
-<a href='/tv/065'><h3>江苏影视</h3></a>
-<a href='/tv/053'><h3>江苏体育休闲</h3></a>
-<a href='/tv/013'><h3>广东体育GDTY</h3></a>
-<a href='/tv/036'><h3>山东教育TV</h3></a>
-<a href='/tv/477'><h3>炫动卡通</h3></a>
-<a href='/tv/1562'><h3>上海外语频道</h3></a>
-<a href='/tv/110'><h3>上海新闻综合</h3></a>
-<a href='/tv/101'><h3>上海电视剧</h3></a>
-<a href='/tv/024'><h3>上海纪实</h3></a>
-<a href='/tv/019'><h3>上海艺术人文</h3></a>
-<a href='/tv/063'><h3>东方电影频道</h3></a>
-</ul>
-
-
-
-
+<div id='tvlist'></div>
 </div>
 
 
-<HR>
+<div class = 'tvblock' style = "border:#c3cecd 1px solid; width: 100%; float: left;" >
+<h2><strong>视频</strong></h2>
+<input id='videoname' type ='text' ></input>
+<button type = 'button' onclick = btnAction_video()>搜索</button>
+</div>
+
+
+
+
 <div id = 'content'>
     <div id = 'infos'>
     </div>
@@ -135,13 +131,41 @@ a{text-decoration:none}
 
 
 
-
 <script>
+
+var page = Array()
+var pagename = Array()
+page.push('/zhibootv/001','/zhibootv/055','/zhibootv/056', '/zhibootv/085', 'jump/haoqu?id=cctv5','jump/haoqu?id=cctv6', 'jump/haoqu?id=cctv7', 'jump/haoqu?id=cctv10', 'jump/haoqu?id=cctv13','jump/haoqu?id=cctv-news', '/zhibootv/009', 'jump/haoqu?id=chchd', '/zhibootv/011','/zhibootv/007')
+
+pagename.push('中央1套', '中央2套','中央3套', '中央4套','中央5套','中央6套', '中央7套','中央10套','中央13套','英文新闻','湖南卫视', '高清电影', '浙江卫视', '东方卫视')
+
+
+function build_tvlist() {
+
+//<li class = 'oneline'><a href='/zhibootv/009'><h3>湖南卫视</h3></a></li>
+    var strings = '';
+    for (var i=0; i < page.length; i++) {
+        strings = strings + "<li class = 'oneline'><a href='" + page[i] + "'><h3>" + pagename[i] + "</h3></a></li>"
+    }
+    
+    document.getElementById('tvlist').innerHTML = strings
+}
+
+build_tvlist();
+
+
+
+
+function btnAction_video() {
+    var name = document.getElementById('videoname').value
+    console.log('searching...')
+    console.log(name)
+}
 
 function btnAction() {
     var oAjax = new XMLHttpRequest();
-    //var api_host = 'http://localhost:8080/api/translate?word='
-    var api_host = 'http://www.lumeno.club/api/translate?word='
+    var api_host = 'http://localhost:8080/api/translate?word='
+    //var api_host = 'http://www.lumeno.club/api/translate?word='
     var word = document.getElementById('trans').value
     var url = api_host + word
 
