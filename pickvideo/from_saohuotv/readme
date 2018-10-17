@@ -1,0 +1,11 @@
+需要请求头
+
+    搜索页面: http://v.saohuotv.com/search.php
+        post : data = {'searchword' : 'xxx'}
+
+
+    解析出搜索结果;
+
+    根据解析到的播放页面，提取视频最终地址;
+        
+

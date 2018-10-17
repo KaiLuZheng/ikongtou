@@ -1,0 +1,119 @@
+<html>
+<head>
+<style>
+
+.tvblock {
+
+}
+
+.oneline {
+    display: inline;
+    float: left;
+    border: #c3cecd 1px solid;
+    width: 90px;
+    text-align: center;
+  
+}
+
+
+</style>
+</head>
+
+
+<body>
+
+<div class = 'tvblock' style = "border:#c3cecd 1px solid; width: 100%; float: left;" >
+<h2><strong>视频</strong></h2>
+<input id='videoname' type ='text' ></input>
+<button type = 'button' onclick = btnAction()>搜索</button>
+</div>
+
+<div class = 'tvblock' style = "border:#c3cecd 1px solid; width: 100%; float: left;" >
+<h2><strong>检索结果</strong></h2>
+<div id='result'></div>
+</div>
+
+<div class = 'tvblock' style = "border:#c3cecd 1px solid; width: 100%; float: left;" >
+<h2><strong>列表</strong></h2>
+<div id='list_result'></div>
+</div>
+
+
+</body>
+
+<script>
+
+function btnAction() {
+    console.log('click')
+    var name = document.getElementById('videoname').value
+
+    var oAjax = new XMLHttpRequest();
+    var api_host = 'http://localhost:8080/saohuo/search?searchword='
+    //var api_host = 'http://www.lumeno.club/saohuo/search?searchword='
+    var url = api_host + name
+
+    console.log('searching...')
+    console.log(name)
+
+    oAjax.open('GET', url, true); 
+    oAjax.send()
+
+    oAjax.onreadystatechange=function(){
+        if(oAjax.readyState==4){
+            if(oAjax.status==200){
+                result = JSON.parse(oAjax.responseText);
+
+                var playlist = String('')
+                for (var i = 0; i < result.length; i++) {
+                    playlist = playlist + '<button type = "button" onclick = picklist("' + result[i]['href'] + '")>' +
+                    '<h4 class = "oneline">'+result[i]['title'] + '<br>' + result[i]['note'] +'</h4>'+
+                    '</button>'
+                }
+                document.getElementById('result').innerHTML = playlist
+
+            } else {
+                document.getElementById('result').innerHTML = '<h2><strong>暂时没有</strong></h2>'
+            } 
+            
+        }
+    }
+}
+
+function picklist(url) {
+    var oAjax = new XMLHttpRequest();
+    var api_host = 'http://localhost:8080/saohuo/playlist?url='
+    //var api_host = 'http://www.lumeno.club/saohuo/playlist?url='
+    url = api_host + url
+
+    console.log('searching...')
+    console.log(url)
+
+    oAjax.open('GET', url, true); 
+    oAjax.send()
+
+    oAjax.onreadystatechange=function(){
+        if(oAjax.readyState==4){
+            if(oAjax.status==200){
+                result = JSON.parse(oAjax.responseText);
+
+                var playlist = String('')
+                for (var i = 0; i < result.length; i++) {
+                    playlist = playlist + '<a href="http://localhost:8080/saohuotv?url=' + result[i]['href'] + '">' +
+                    //playlist = playlist + '<a href="http://www.lumeno.club/saohuotv?url=' + result[i]['href'] + '">' +
+                    '<h4 class = "oneline">' + result[i]['note'] +'</h4>'+
+                    '</a>'
+                }
+                document.getElementById('list_result').innerHTML = playlist
+
+            } else {
+                document.getElementById('list_result').innerHTML = '<h2><strong>暂时没有</strong></h2>'
+            } 
+            
+        }
+    }
+
+}
+
+</script>
+
+</html>

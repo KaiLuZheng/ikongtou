@@ -10,14 +10,20 @@ from translate import baiduTranslator as bdt
 import configparser
 import json
 from urls import urls
+import logging
 
 ### 
 
 import sys, os
 maindir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(maindir + '/picktvshow')
+sys.path.append(maindir + '/pickvideo/from_saohuotv')
 from zhibooStream_api import xroute_tvmap as zhiboo_xroute
 from haoquStream_api import xroute_tvmap as haoqu_xroute
+
+from saohuotv_core import searchInfos as saohuosearch
+from saohuotv_core import xVideoRoute as saohuovideo
+from saohuotv_core import xVideolist as saohuo_videolist
 
 ###
 
@@ -47,6 +53,59 @@ class xhaoquIframe:
     def POST(self, data):
 
         return 'hello'
+
+
+class saohuo_video:
+    def GET(self):       
+        data = ''
+        try:
+            data = web.input().url
+            print(data)
+        except Exception as e:
+            print(e)
+        else:
+            routelist = saohuo_videolist(data)
+
+        return routelist
+
+
+class saohuo_search:
+    def GET(self):
+        data = ''
+        try:
+            data = web.input().searchword
+            print(data)
+        except Exception as e:
+            print(e)
+        else:
+            infos = saohuosearch(data)
+
+        if data == '':
+            return render.saohuotv_search()
+        else:
+            return infos
+
+
+class saohuo_play:
+    def GET(self):
+        data = ''
+        try:
+            data = web.input().url
+            print(data)
+        except Exception as e:
+            print('error: ', e)
+        else:
+            try:
+                route = saohuovideo(data)
+                print('webmanager: ', route)
+            except Exception as e:
+                print('error: %s'%e)
+                return '<a href="' + data +'"><h2><strong>Jump to look</strong></h2><a>'
+
+        if data == '' or route == 'error':
+            return '<a href="' + data +'"><h2><strong>Jump to look</strong></h2><a>'
+
+        return render.saohuotv(route)
         
 
 class jump_haoqu:
@@ -186,6 +245,7 @@ app = web.application(urls, locals())
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level = logging.DEBUG)
     app.run()
 
 

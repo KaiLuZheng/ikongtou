@@ -117,15 +117,16 @@ a{text-decoration:none}
 
 <div class = 'tvblock' style = "border:#c3cecd 1px solid; width: 100%; float: left;" >
 <h2><strong>视频</strong></h2>
-<input id='videoname' type ='text' ></input>
 <button type = 'button' onclick = btnAction_video()>搜索</button>
 </div>
 
 
 
-
-<div id = 'content'>
-    <div id = 'infos'>
+<div class = 'tvblock' style = "border:#c3cecd 1px solid; width: 100%; float: left;" >
+<h2><strong>区块链咨询(from 8btc)</strong></h2>
+    <div id = 'content'>
+        <div id = 'infos'>
+        </div>
     </div>
 </div>
 
@@ -157,9 +158,9 @@ build_tvlist();
 
 
 function btnAction_video() {
-    var name = document.getElementById('videoname').value
-    console.log('searching...')
-    console.log(name)
+    document.location = 'http://localhost:8080/saohuo/search'
+    //document.location = 'http://www.lumen.club/saohuo/search'
+
 }
 
 function btnAction() {

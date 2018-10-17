@@ -1,0 +1,69 @@
+$def with (route)
+<html>
+<head>
+<style>
+.oneline {
+    display: inline;
+    border: #c3cecd 1px solid;
+    width: 90px;
+    float: left
+}
+
+</style>
+</head>
+
+<body>
+
+<script type="text/javascript" src = "/ckplayer/ckplayer.js"></script>
+<div id="video" style="width:100%;height:600px;"></div>
+<div id='videoAddress' class = 'online'></div>
+<div id='sourceAddress' class = 'online'></div>
+<div id='ps' class = 'online'>saohuotv部分视频目前只能在手机上观看</div>
+<script type="text/javascript">
+
+
+videoline = "$route"
+videotmp = videoline.split('.')
+if (videotmp[videotmp.length-1] == 'mp4') {
+    setNormal()
+    document.getElementById('videoAddress').innerHTML = "<h4>Download:<a href='" + videoline + "'> "+ videoline+"</a></h4>"
+} else {
+
+    var videoblock = ''
+
+    if((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+        console.log("mobile");
+        videoblock = '<video controls="" autoplay="" name="media" style="width:100%;height:500px"><source src=' + 
+                            "$route" + 'type="video/mp4"></video>'
+    } else {
+        console.log("pc");
+        videoblock = '<iframe style="width:100%;height:600px;" src=' + "$route" + ' ></iframe>'
+    }
+
+    console.log(videoblock)
+    document.getElementById('video').innerHTML = videoblock
+}
+
+
+sourcepage = document.location['href'].split('url=')[1]
+document.getElementById('sourceAddress').innerHTML = "<h4>source page: <a href='" + sourcepage + "'> "+ sourcepage +"</a></h4>"
+
+function setNormal() {
+    var strings = "$route"
+    
+    var videoObject = {
+        container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
+        variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+        flashplayer: false,//如果强制使用flashplayer则设置成true
+        autoplay: false,
+        live: false,
+        video: strings//视频地址
+    };
+    var player=new ckplayer(videoObject)
+}
+
+</script>
+
+
+</body>
+</html>
